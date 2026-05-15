@@ -41,13 +41,14 @@ def fetch_articles(category: str | None = None) -> list[dict]:
         q = q.eq("categorie", category)
     articles = q.execute().data
 
-    now = datetime.now(timezone.utc)
+    today = datetime.now(timezone.utc).date()
     for a in articles:
         a["image_url"] = image_url(a.get("image"))
-        created = a.get("created_at")
-        if created:
-            created_dt = datetime.fromisoformat(created.replace("Z", "+00:00"))
-            a["is_new"] = (now - created_dt).total_seconds() < 86400
+        article_date = a.get("date")
+        if article_date:
+            from datetime import date as date_type
+            d = date_type.fromisoformat(str(article_date)[:10])
+            a["is_new"] = (today - d).days <= 1
         else:
             a["is_new"] = False
     return articles
