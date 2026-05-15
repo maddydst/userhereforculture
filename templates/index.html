@@ -425,6 +425,7 @@
       <span class="featured-badge" style="background: {{ featured._theme.bg }}; color: {{ featured._theme.color }}; border: 1px solid {{ featured._theme.border }};">
         {{ featured.categorie }}
       </span>
+      {% if featured.is_new %}<span style="font-size:10px;font-weight:700;letter-spacing:1px;color:#fff;background:#e53935;padding:3px 9px;border-radius:10px;margin-left:8px;">NEW</span>{% endif %}
 
       <h1 class="featured-title">{{ featured.titre }}</h1>
 
@@ -466,7 +467,10 @@
         <span class="card-badge" style="background: {{ a._theme.bg }}; color: {{ a._theme.color }}; border: 1px solid {{ a._theme.border }};">
           {{ a.categorie }}
         </span>
-        <span class="card-score">{{ a.score }}/10</span>
+        <div style="display:flex;align-items:center;gap:8px;">
+          {% if a.is_new %}<span style="font-size:10px;font-weight:700;letter-spacing:1px;color:#fff;background:#e53935;padding:2px 7px;border-radius:10px;">NEW</span>{% endif %}
+          <span class="card-score">{{ a.score }}/10</span>
+        </div>
       </div>
 
       <h2 class="card-title">{{ a.titre }}</h2>

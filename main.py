@@ -19,7 +19,7 @@ from dotenv import load_dotenv
 
 from gmail_auth import get_gmail_service
 from extractor import extract
-from db import seen_ids as db_seen_ids, insert_article, upload_image
+from db import seen_ids as db_seen_ids, insert_article, upload_image, delete_old_articles
 
 load_dotenv()
 
@@ -251,6 +251,8 @@ def run(days: int = 1):
         f"{stats['duplicate']} doublon(s) · "
         f"{stats['error']} erreur(s)"
     )
+    delete_old_articles()
+    print("[→] Articles de plus de 2 semaines supprimés.")
 
 
 if __name__ == "__main__":

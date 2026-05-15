@@ -1,0 +1,37 @@
+name: Daily newsletter fetch
+
+on:
+  schedule:
+    - cron: '0 7 * * *'  # tous les jours à 7h UTC (9h Paris)
+  workflow_dispatch:      # bouton manuel dans GitHub
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Write Gmail token
+        run: echo "$GMAIL_TOKEN" | base64 -d > token.pickle
+        env:
+          GMAIL_TOKEN: ${{ secrets.GMAIL_TOKEN }}
+
+      - name: Write credentials
+        run: echo "$GMAIL_CREDENTIALS" > credentials.json
+        env:
+          GMAIL_CREDENTIALS: ${{ secrets.GMAIL_CREDENTIALS }}
+
+      - name: Run pipeline
+        run: python main.py 1
+        env:
+          MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}

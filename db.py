@@ -30,14 +30,34 @@ def image_url(filename: str | None) -> str | None:
 
 
 def fetch_articles(category: str | None = None) -> list[dict]:
+    from datetime import datetime, timedelta, timezone
     sb = get_client()
-    q = sb.table("newsletters").select("*").order("date", desc=True).order("score", desc=True)
+    cutoff = (datetime.now(timezone.utc) - timedelta(days=14)).date().isoformat()
+    q = (sb.table("newsletters").select("*")
+         .gte("date", cutoff)
+         .order("date", desc=True)
+         .order("score", desc=True))
     if category and category != "all":
         q = q.eq("categorie", category)
     articles = q.execute().data
+
+    now = datetime.now(timezone.utc)
     for a in articles:
         a["image_url"] = image_url(a.get("image"))
+        created = a.get("created_at")
+        if created:
+            created_dt = datetime.fromisoformat(created.replace("Z", "+00:00"))
+            a["is_new"] = (now - created_dt).total_seconds() < 86400
+        else:
+            a["is_new"] = False
     return articles
+
+
+def delete_old_articles():
+    from datetime import datetime, timedelta, timezone
+    sb = get_service_client()
+    cutoff = (datetime.now(timezone.utc) - timedelta(days=14)).date().isoformat()
+    sb.table("newsletters").delete().lt("date", cutoff).execute()
 
 
 def seen_ids() -> set[str]:
