@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UserHereForCulture</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #08080f;
+      --bg2:       #0e0e1a;
+      --bg3:       #13131f;
+      --border:    rgba(255,255,255,0.07);
+      --text:      #e8eaf6;
+      --muted:     #565e8a;
+      --muted2:    #3a4060;
+    }
+
+    html { font-size: 16px; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* ── Header ─────────────────────────────── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 0 48px;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px 0 20px;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #e8eaf6, #8892b0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .header-meta {
+      font-size: 12px;
+      color: var(--muted);
+      text-align: right;
+      line-height: 1.6;
+    }
+
+    .header-meta strong {
+      color: var(--muted2);
+      font-weight: 600;
+    }
+
+    /* ── Nav tabs ────────────────────────────── */
+    nav {
+      display: flex;
+      gap: 4px;
+      padding: 0 0 0 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    nav::-webkit-scrollbar { display: none; }
+
+    .nav-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 18px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .nav-tab:hover { color: var(--text); }
+
+    .nav-tab.active {
+      color: var(--text);
+      border-bottom-color: var(--text);
+    }
+
+    .nav-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
+    /* ── Main layout ─────────────────────────── */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 48px 80px;
+    }
+
+    /* ── Featured article ────────────────────── */
+    .featured {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 48px;
+    }
+
+    @media (max-width: 768px) {
+      .featured { grid-template-columns: 1fr; gap: 24px; }
+      main, header { padding-left: 20px; padding-right: 20px; }
+    }
+
+    .featured-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .featured-visual {
+      border-radius: 16px;
+      aspect-ratio: 16/9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .featured-visual-inner {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .featured-badge {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+
+    .featured-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(24px, 3vw, 36px);
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 20px;
+      color: #f0f2ff;
+    }
+
+    .featured-meta {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .bullet-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .bullet-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 1.55;
+      color: #c0c8e8;
+    }
+
+    .bullet-dot {
+      flex-shrink: 0;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      margin-top: 8px;
+    }
+
+    .score-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.05);
+      color: var(--muted);
+      margin-top: 16px;
+    }
+
+    /* ── Grid ────────────────────────────────── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+    }
+
+    .section-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .section-count {
+      font-size: 11px;
+      color: var(--muted2);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+
+    /* ── Card ────────────────────────────────── */
+    .card {
+      border-radius: 14px;
+      padding: 22px;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: border-color 0.2s, transform 0.15s;
+      cursor: default;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-badge {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    .card-score {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.35;
+      color: #e8eaf6;
+    }
+
+    .card-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .card-bullet {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 1.5;
+      color: #8892b0;
+    }
+
+    .card-bullet-dot {
+      flex-shrink: 0;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      margin-top: 7px;
+      opacity: 0.6;
+    }
+
+    .card-footer {
+      font-size: 11px;
+      color: var(--muted2);
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* ── Empty state ─────────────────────────── */
+    .empty {
+      text-align: center;
+      padding: 80px 0;
+      color: var(--muted);
+    }
+
+    .empty-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--muted2);
+    }
+
+    .empty-sub {
+      font-size: 14px;
+    }
+
+    /* ── Visual placeholder ───────────────────── */
+    .visual-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .visual-placeholder::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        rgba(255,255,255,0.015) 0px,
+        rgba(255,255,255,0.015) 1px,
+        transparent 1px,
+        transparent 40px
+      );
+    }
+
+    .visual-cat-label {
+      font-size: 32px;
+      opacity: 0.25;
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="logo">UserHereForCulture</div>
+    <div class="header-meta">
+      <div>{{ today }}</div>
+      <div><strong>{{ total }}</strong> article{{ 's' if total != 1 else '' }}</div>
+    </div>
+  </div>
+
+  <nav>
+    <a href="/?cat=all" class="nav-tab {% if active_cat == 'all' %}active{% endif %}">
+      Tout
+    </a>
+    {% for cat in categories %}
+    <a href="/?cat={{ cat }}" class="nav-tab {% if active_cat == cat %}active{% endif %}">
+      <span class="nav-dot" style="background: {{ themes[cat].color }};"></span>
+      {{ cat }}
+    </a>
+    {% endfor %}
+  </nav>
+</header>
+
+<main>
+
+  {% if featured %}
+  <!-- ── Featured ───────────────────────────── -->
+  <article class="featured">
+    <div class="featured-visual" style="border: 1px solid {{ featured._theme.border }};">
+      {% if featured.image %}
+        <img src="/images/{{ featured.image }}" alt="{{ featured.titre }}" style="width:100%;height:100%;object-fit:cover;border-radius:16px;">
+      {% else %}
+        <div class="visual-placeholder" style="background: {{ featured._theme.bg }};">
+          {% set icons = {'Tech': '⚡', 'Finance': '💹', 'IA': '🤖', 'Marché': '📊', 'Startup': '🚀', 'Crypto': '₿', 'Autre': '📌'} %}
+          <span class="visual-cat-label">{{ icons.get(featured.categorie, '📌') }}</span>
+        </div>
+      {% endif %}
+    </div>
+
+    <div>
+      <div class="featured-label">À la une</div>
+
+      <span class="featured-badge" style="background: {{ featured._theme.bg }}; color: {{ featured._theme.color }}; border: 1px solid {{ featured._theme.border }};">
+        {{ featured.categorie }}
+      </span>
+
+      <h1 class="featured-title">{{ featured.titre }}</h1>
+
+      <div class="featured-meta">
+        {{ featured.source | truncate(40, true, '…') }} · {{ featured.date }}
+      </div>
+
+      <ul class="bullet-list">
+        {% for point in featured.resume %}
+        <li class="bullet-item">
+          <span class="bullet-dot" style="background: {{ featured._theme.color }};"></span>
+          {{ point }}
+        </li>
+        {% endfor %}
+      </ul>
+
+      <div class="score-pill">
+        Importance {{ featured.score }}/10
+        {% if featured.score_raison %} · {{ featured.score_raison }}{% endif %}
+      </div>
+    </div>
+  </article>
+  {% endif %}
+
+  <!-- ── Grid ───────────────────────────────── -->
+  {% if articles %}
+  <div class="section-header">
+    <div class="section-title">Toutes les actus</div>
+    <div class="section-count">{{ articles | length }} article{{ 's' if articles | length != 1 else '' }}</div>
+  </div>
+
+  <div class="grid">
+    {% for a in articles %}
+    <article class="card" style="border-color: {{ a._theme.border }};">
+      {% if a.image %}
+        <img src="/images/{{ a.image }}" alt="{{ a.titre }}" style="width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;margin-bottom:4px;">
+      {% endif %}
+      <div class="card-top">
+        <span class="card-badge" style="background: {{ a._theme.bg }}; color: {{ a._theme.color }}; border: 1px solid {{ a._theme.border }};">
+          {{ a.categorie }}
+        </span>
+        <span class="card-score">{{ a.score }}/10</span>
+      </div>
+
+      <h2 class="card-title">{{ a.titre }}</h2>
+
+      <ul class="card-bullets">
+        {% for point in a.resume %}
+        <li class="card-bullet">
+          <span class="card-bullet-dot" style="background: {{ a._theme.color }};"></span>
+          {{ point }}
+        </li>
+        {% endfor %}
+      </ul>
+
+      <div class="card-footer">
+        <span>{{ a.source | truncate(30, true, '…') }}</span>
+        <span>{{ a.date }}</span>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+
+  {% elif not featured %}
+  <div class="empty">
+    <div class="empty-title">Aucune newsletter pour le moment</div>
+    <div class="empty-sub">Lance <code>python main.py</code> pour alimenter le flux.</div>
+  </div>
+  {% endif %}
+
+</main>
+
+</body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip install *)",
+      "Bash(python app.py)",
+      "Bash(curl -s http://localhost:5000)",
+      "Bash(curl -s http://localhost:5000/)",
+      "Bash(curl -sv http://localhost:5000/)",
+      "Bash(python3 -c \"import flask; print\\('flask ok'\\)\")",
+      "Bash(/Library/Frameworks/Python.framework/Versions/3.12/bin/python3 -m pip install flask --quiet)",
+      "Bash(python3 app.py)",
+      "Bash(curl -s http://localhost:8080/)",
+      "Bash(python3 -c ' *)",
+      "Bash(open http://localhost:8080)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(d.get\\('installed',{}\\).get\\('client_id','?'\\)[:20]\\)\")"
+    ]
+  }
+}

@@ -1,0 +1,9 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+token.pickle
+credentials.json
+newsletters.json
+generated_images/
+*.png
