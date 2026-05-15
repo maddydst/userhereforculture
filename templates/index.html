@@ -409,8 +409,8 @@
   <!-- ── Featured ───────────────────────────── -->
   <article class="featured">
     <div class="featured-visual" style="border: 1px solid {{ featured._theme.border }};">
-      {% if featured.image %}
-        <img src="/images/{{ featured.image }}" alt="{{ featured.titre }}" style="width:100%;height:100%;object-fit:cover;border-radius:16px;">
+      {% if featured.image_url %}
+        <img src="{{ featured.image_url }}" alt="{{ featured.titre }}" style="width:100%;height:100%;object-fit:cover;border-radius:16px;">
       {% else %}
         <div class="visual-placeholder" style="background: {{ featured._theme.bg }};">
           {% set icons = {'Tech': '⚡', 'Finance': '💹', 'IA': '🤖', 'Marché': '📊', 'Startup': '🚀', 'Crypto': '₿', 'Autre': '📌'} %}
@@ -459,8 +459,8 @@
   <div class="grid">
     {% for a in articles %}
     <article class="card" style="border-color: {{ a._theme.border }};">
-      {% if a.image %}
-        <img src="/images/{{ a.image }}" alt="{{ a.titre }}" style="width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;margin-bottom:4px;">
+      {% if a.image_url %}
+        <img src="{{ a.image_url }}" alt="{{ a.titre }}" style="width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;margin-bottom:4px;">
       {% endif %}
       <div class="card-top">
         <span class="card-badge" style="background: {{ a._theme.bg }}; color: {{ a._theme.color }}; border: 1px solid {{ a._theme.border }};">

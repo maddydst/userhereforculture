@@ -19,7 +19,7 @@ from dotenv import load_dotenv
 
 from gmail_auth import get_gmail_service
 from extractor import extract
-from db import seen_ids as db_seen_ids, insert_article
+from db import seen_ids as db_seen_ids, insert_article, upload_image
 
 load_dotenv()
 
@@ -227,9 +227,11 @@ def run(days: int = 1):
             result["date"]   = email["date"]
             result["source"] = email["sender"]
             cid = _card_id(result["titre"])
-            img = _generate_image(result.get("image_prompt", result["titre"]), cid)
-            if img:
-                result["image"] = cid + ".png"
+            img_path = _generate_image(result.get("image_prompt", result["titre"]), cid)
+            if img_path:
+                filename = cid + ".png"
+                upload_image(filename, IMAGES_DIR / filename)
+                result["image"] = filename
 
             insert_article(result)
             existing_ids.add(email["id"])
